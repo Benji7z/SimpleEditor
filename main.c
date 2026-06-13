@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
+        printf("No file was given.\n");
         return 1;
     }
 
@@ -17,10 +18,13 @@ int main(int argc, char *argv[])
     char content[MAX_CHARS] = {0};
     int len = 0;
 
+    //cursor position as an index into content[]
     int cursor = 0;
 
+    // scroll offset: which screen-row is at the top of the viewport
     int scroll_offset = 0;
 
+    // Load existing file content, if it exists
     FILE *f = fopen(filename, "r");
     if (f != NULL)
     {
@@ -33,7 +37,7 @@ int main(int argc, char *argv[])
         fclose(f);
     }
 
-    cursor = len;
+    cursor = len; // start at end of file
 
     tb_init();
 
@@ -43,6 +47,7 @@ int main(int argc, char *argv[])
     {
         tb_clear();
 
+        // first pass: figure out where the cursor lands (in full, unscrolled coordinates)
         int x = 0, y = 0;
         int cursorx = 0, cursory = 0;
 
@@ -76,6 +81,7 @@ int main(int argc, char *argv[])
             cursory = y;
         }
 
+        // adjust scroll_offset so the cursor stays within the viewport
         if (cursory < scroll_offset)
         {
             scroll_offset = cursory;
@@ -89,6 +95,7 @@ int main(int argc, char *argv[])
             scroll_offset = 0;
         }
 
+        // second pass: redraw, shifting everything up by scroll_offset
         x = 0;
         y = 0;
 
@@ -115,6 +122,7 @@ int main(int argc, char *argv[])
             }
         }
 
+        // draw cursor block (with whatever character is under it)
         char under = (cursor < len) ? content[cursor] : ' ';
         if (under == '\n') under = ' ';
 

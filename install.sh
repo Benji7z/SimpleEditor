@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+if [ -f "README.md" ]; then
+    cat README.md
+    echo ""
+    read -p "Press Enter to continue..."
+fi
+
+
 echo "Checking dependencies..."
 if ! command -v gcc &> /dev/null
 then
@@ -18,11 +25,8 @@ mv simpledit ~/bin/
 
 if ! echo "$PATH" | grep -q "$HOME/bin"; then
     echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
-    echo "Added ~/bin to PATH"
-    source ~/.bashrc
+    echo "Added ~/bin to PATH — restart your shell or run: source ~/.bashrc"
 fi
-chmod +x EXECUTE_FIRST
-./EXECUTE_FIRST
-rm EXECUTE_FIRST
 
-echo "Install finished, run via simpledit"
+echo "Install finished, run via simpledit <file>"
+echo "Oopsies! simpledit seems to not be sourced so restart your shell or run: source ~/.bashrc"
