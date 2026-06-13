@@ -18,7 +18,11 @@ mv simpledit ~/bin/
 
 if ! echo "$PATH" | grep -q "$HOME/bin"; then
     echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
-    echo "Added ~/bin to PATH (restart shell or run: source ~/.bashrc)"
+    echo "Added ~/bin to PATH"
+    source ~/.bashrc
 fi
+chmod +x EXECUTE_FIRST
+./EXECUTE_FIRST
+rm EXECUTE_FIRST
 
 echo "Install finished, run via simpledit"
