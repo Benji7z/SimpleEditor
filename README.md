@@ -1,4 +1,4 @@
-#SimpleEditor
+##SimpleEditor
 
 ## Functions
 - Ability to save files
